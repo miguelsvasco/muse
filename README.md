@@ -1,6 +1,18 @@
 # MUSE
 Official implementation of the Multimodal Unsupervised Sensing (MUSE) model.
 
+## Citation
+```
+@article{vasco2021sense,
+  title={How to Sense the World: Leveraging Hierarchy in Multimodal Perception for Robust Reinforcement Learning Agents},
+  author={Vasco, Miguel and Yin, Hang and Melo, Francisco S and Paiva, Ana},
+  journal={arXiv preprint arXiv:2110.03608},
+  year={2021}
+}
+```
+
+------------
+
 ## Setup/Instalation
 Tested on Ubuntu 16.04 LTS, CUDA 10.2:
 
@@ -41,6 +53,8 @@ cd muse_devel/evaluation/
 ./get_pretrained_models.sh    
 ```
 
+------------
+
 ## Experiments
 
 ### Multimodal Atari Games
@@ -51,7 +65,7 @@ Hyperhot           |  Pendulum
 
 The pipeline is identical for both the Pendulum and Hyperhot scenarios.
 
-#### Training the representation model (MUSE)
+#### Training the representation model
 To train MUSE with CUDA:
 ```
 python train_vae.py
@@ -63,7 +77,7 @@ python train_vae.py with gpu.cuda=False
 ```
 After training, place the model ``` *_checkpoint.pth.rar``` in the ``` /trained_models``` folder  and rename it  ``` *_last_checkpoint.pth.rar```. 
 
-#### Training the RL algorithm (MUSE)
+#### Training the RL algorithm
 To train the RL algorithm with CUDA:
 ```
 python train_rl.py
@@ -76,7 +90,7 @@ python train_rl.py with gpu.cuda=False
 After training, place the model ``` best_*_model.pth.rar``` in the ``` /trained_models``` folder. 
 
 
-#### Evaluation (MUSE)
+#### Evaluation
 By default the results are obtained for when the agent
 is provided only with sound observations. To change the type of observation provided, please select the
 appropriate flag in the ``` ingredients.py``` file:
@@ -101,7 +115,7 @@ Without CUDA:
 ```
 python eval_pipeline.py with gpu.cuda=False
 ```
-
+------------
 
 ### MNIST/CelebA/MNIST-SVHN evaluation
 
