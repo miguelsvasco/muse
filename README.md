@@ -13,8 +13,8 @@ Official implementation of the Multimodal Unsupervised Sensing (MUSE) model.
 
 ------------
 
-## Setup/Instalation
-Tested on Ubuntu 16.04 LTS, CUDA 10.2:
+## Setup
+*Tested on Ubuntu 16.04 LTS, CUDA 10.2*
 
 1. Run ``` ./install_pyenv.sh ``` to install the pyenv environment (requires administrative privilige to install pyenv dependencies)
 2. Add the following to your  ``` .bashrc ``` file:
@@ -32,9 +32,6 @@ eval "$(pyenv virtualenv-init -)"
  ``` 
 pip install pygame imageio imageio-ffmpeg pysine pandas
  ``` 
-
-### Troubleshooting:
-- If ``` ./install_pyenv.sh ``` fails on Ubuntu 18.04 LTS, replace in the file all entries refering to Python ```3.6.4``` with ```3.6.9```.
 
 ## Download Datasets for Evaluation (~6.5 GB)
 To download the datasets used in the evaluation, run (might take a while):
@@ -63,36 +60,32 @@ Hyperhot           |  Pendulum
 :-------------------------:|:-------------------------:
 ![](images/hyperhot_game.gif)  |  ![](images/pendulum_game.gif)
 
-The pipeline is identical for both the Pendulum and Hyperhot scenarios.
 
 #### Training the representation model
-To train MUSE with CUDA:
+To train MUSE:
 ```
 python train_vae.py
 ```
 
-To train MUSE without CUDA:
-```
-python train_vae.py with gpu.cuda=False
-```
 After training, place the model ``` *_checkpoint.pth.rar``` in the ``` /trained_models``` folder  and rename it  ``` *_last_checkpoint.pth.rar```. 
 
 #### Training the RL algorithm
-To train the RL algorithm with CUDA:
+To train the RL algorithm:
 ```
 python train_rl.py
 ```
 
-To train the RL algorithm without CUDA:
-```
-python train_rl.py with gpu.cuda=False
-```
 After training, place the model ``` best_*_model.pth.rar``` in the ``` /trained_models``` folder. 
 
 
 #### Evaluation
+To evaluate the performance of the agent:
+```
+python eval_pipeline.py
+```
+
 By default the results are obtained for when the agent
-is provided only with sound observations. To change the type of observation provided, please select the
+is provided with joint observations. To change the type of observation provided, please select the
 appropriate flag in the ``` ingredients.py``` file:
 
 ```
@@ -101,54 +94,35 @@ def eval_pipeline_config():
     eval_episodes = 100
     eval_episode_length = 300
 
-    condition_on_joint = False
+    condition_on_joint = True
     condition_on_image = False
-    condition_on_sound = True
+    condition_on_sound = False
 ```
 
-With CUDA:
-```
-python eval_pipeline.py
-```
-
-Without CUDA:
-```
-python eval_pipeline.py with gpu.cuda=False
-```
 ------------
 
 ### MNIST/CelebA/MNIST-SVHN evaluation
 
 #### Training
-To train MUSE with CUDA:
+To train MUSE:
 ```
 python train.py
 ```
 
-To train MUSE without CUDA:
-```
-python train.py with gpu.cuda=False
-```
 After training, place the model ``` *_checkpoint.pth.rar``` in the ``` /trained_models``` folder and rename it  ``` *_last_checkpoint.pth.rar```.  
 
 #### Generation
 To generate image samples from labels information (labels):
 
-CUDA: ```python generate.py```
+```python generate.py```
  
-Without CUDA: ```python generate.py with gpu.cuda=False```
-
 
 #### Evaluation
-##### **Standard likelihood** metrics:
-
-*With CUDA*:
 ```
 python evaluate_likelihoods.py
 ```
 
-*Without CUDA*:
-```
-python evaluate_likelihoods.py with gpu.cuda=False
-```
-```
+## FAQ
+
+- To run python scripts without CUDA, add ```with gpu.cuda=False```.
+- If ``` ./install_pyenv.sh ``` fails on Ubuntu 18.04 LTS, replace in the file all entries refering to Python ```3.6.4``` with ```3.6.9```.
